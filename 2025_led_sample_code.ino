@@ -19,13 +19,14 @@
 // strandtest example for more information on possible values.
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
+enum States {EMPTY, HOLDING, HANDOFF};
 
-String state; // state the robot is in
+States currentState; // state the robot is in
 
 void setup() {
   // the line below this should change based on which state you want to test
   // options are "empty", "holding", and "handoff"
-  state = "holding";
+  currentState = States::HANDOFF;
 
  
   /* IGNORE THE LINES BELOW
@@ -37,23 +38,102 @@ void setup() {
   // END of Trinket-specific code.
 
   pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+  pixels.setBrightness(50);
 }
+
 
 void loop() {
   // check the state the robot is in and display the corresponding color
-  if(state.equals("empty")) {
+  if(currentState == States::EMPTY) {
     // solid purple
-    setColor(50, 0, 100);
-  } else if(state.equals("holding")) {
-    // flashing brighter purple
-    setColor(100, 0, 200);
+    setColor(100, 0, 100);
+  } else if(currentState == States::HOLDING) {
+    // flashing purple
+    setColor(100, 0, 100);
     delay(500);
-    setColor(0,0,0);
+    setColor(0, 0, 0);
     delay(500);
     // can you figure our how to do this without the delay?
     // remember, you can't check for state changes when delay is active
+  } else if(currentState == States::HANDOFF) {
+    int a=0;{
+      pixels.setPixelColor(a, pixels.Color(100, 0, 0));
+    }
+    int b=1;{
+      pixels.setPixelColor(b, pixels.Color(100, 0, 0));
+    }
+    int c=2;{
+      pixels.setPixelColor(c, pixels.Color(100, 0, 0));
+    }
+    int d=3;{
+      pixels.setPixelColor(d, pixels.Color(100, 0, 0));
+    }
+    int e=4;{
+      pixels.setPixelColor(e, pixels.Color(100, 0, 0));
+    }
+    int f=5;{
+      pixels.setPixelColor(f, pixels.Color(100, 0, 0));
+    }
+    int g=6;{
+      pixels.setPixelColor(g, pixels.Color(100, 0, 0));
+    }
+    int h=7;{
+      pixels.setPixelColor(h, pixels.Color(100, 0, 0));
+    }
+    int i=8;{
+      pixels.setPixelColor(i, pixels.Color(0, 100, 0));
+    }
+    int j=9;{
+      pixels.setPixelColor(j, pixels.Color(0, 100, 0));
+    }
+    int k=10;{
+      pixels.setPixelColor(k, pixels.Color(0, 100, 0));
+    }
+    int l=11;{
+      pixels.setPixelColor(l, pixels.Color(0, 100, 0));
+    }
+    int m=12;{
+      pixels.setPixelColor(m, pixels.Color(0, 100, 0));
+    }
+    int n=13;{
+      pixels.setPixelColor(n, pixels.Color(0, 100, 0));
+    }
+    int o=14;{
+      pixels.setPixelColor(o, pixels.Color(0, 100, 0));
+    }
+    int p=15;{
+      pixels.setPixelColor(p, pixels.Color(0, 100, 0));
+    }
+    int q=16;{
+      pixels.setPixelColor(q, pixels.Color(0, 0, 100));
+    }
+    int r=17;{
+      pixels.setPixelColor(r, pixels.Color(0, 0, 100));
+    }
+    int s=18;{
+      pixels.setPixelColor(s, pixels.Color(0, 0, 100));
+    }
+    int t=19;{
+      pixels.setPixelColor(t, pixels.Color(0, 0, 100));
+    }
+    int u=20;{
+      pixels.setPixelColor(u, pixels.Color(0, 0, 100));
+    }
+    int v=21;{
+      pixels.setPixelColor(v, pixels.Color(0, 0, 100));
+    }
+    int w=22;{
+      pixels.setPixelColor(w, pixels.Color(0, 0, 100));
+    }
+    int x=23;{
+      pixels.setPixelColor(x, pixels.Color(0, 0, 100));
+    }
+    int y=24;{
+      pixels.setPixelColor(y, pixels.Color(0, 0, 100));
+    }
+    pixels.show();
   }
-  
+
 }
 
 void setColor(int red, int green, int blue) {
