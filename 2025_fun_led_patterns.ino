@@ -10,6 +10,8 @@
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS 32
 
+int serialInput = 9;
+unsigned long startTime;
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 enum States {
@@ -25,60 +27,91 @@ const int delayVal = 200;
 void setup() {
   // put your setup code here, to run once:
 
-  currentState = ALGAE;
-
+  currentState = CORAL;
+  Serial.begin(9600);
 
   pixels.begin();
 }
 
 void loop() {
- pixels.clear();
+
+  unsigned long currentTime = millis();
+  unsigned long time = currentTime - startTime;
+
+  Serial.println(time);
+
+  if (Serial.available() > 0) {
+    serialInput = Serial.read();
+    // Serial.println(currentState);
+    Serial.println(serialInput);
+    Serial.println(currentState);
+    delay(1000);
+
+    if (serialInput == 48) {
+      currentState = 0;
+    } else if (serialInput == 49) {
+      currentState = 1;
+    } else if (serialInput == 50) {
+      currentState = 2;
+    }
+  }
+
+  pixels.show();
   // put your main code here, to run repeatedly:
   if (currentState == EMPTY) {
     for (int i = 0; i < NUMPIXELS; i++) {
-    
-        pixels.setPixelColor(i, pixels.Color(50, 50, 0));
-     
-       
-      }
-    
+
+      pixels.setPixelColor(i, pixels.Color(50, 50, 50));
+    }
+
     pixels.show();
 
 
   } else if (currentState == CORAL) {
-    for (int i = 0; i < NUMPIXELS; i++) {
-      pixels.setPixelColor(i, pixels.Color(100, 0, 100));
+    if( time % 400 < 200) {
+      for (int i = 0; i < NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(100, 0, 100));
+      }
+      pixels.show();
+    } else {
+      for (int i = 0; i < NUMPIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+      }
+      pixels.show();
     }
-    pixels.show();
-    delay(delayVal);
-
-    for (int i = 0; i < NUMPIXELS; i++) {
-      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
-    }
-    pixels.show();
-    delay(delayVal);
 
   } else if (currentState == ALGAE) {
-    for (int i = 0; i < NUMPIXELS; i++) {
-    if (i % 8 < 4) {
-      pixels.setPixelColor(i, pixels.Color(50, 50, 0));
+    if (time % 400 < 200) {
+      for (int i = 0; i < NUMPIXELS; i++) {
+        if (i % 8 < 4) {
+          pixels.setPixelColor(i, pixels.Color(50, 50, 0));
+        } else {
+          pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        }
+      }
+      pixels.show();
     } else {
-      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+      for (int i = 0; i < NUMPIXELS; i++) {
+        if (i % 8 < 4) {
+          pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        } else {
+          pixels.setPixelColor(i, pixels.Color(50, 0, 50));
+        }
+      }
+      pixels.show();
     }
   }
-  pixels.show();
-  delay(delayVal);
-  for (int i = 0; i < NUMPIXELS; i++) {
-    if (i % 8 < 4) {
-      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
-    } else {
-      pixels.setPixelColor(i, pixels.Color(50, 0, 50));
-    }
+  /*if (time > 4000 && time <8000) {
+    pixels.clear();
+    currentState = (States)EMPTY;
+    pixels.show();
+  } else if (  time > 8000){
+    currentState = (States)CORAL;
+    pixels.show();
+
   }
-  pixels.show();
-  delay(delayVal);
-    }
-  }
+  */
+}
 
 
 
