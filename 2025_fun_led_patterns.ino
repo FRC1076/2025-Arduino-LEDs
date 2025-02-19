@@ -40,6 +40,7 @@ void loop() {
 
   Serial.println(time);
 
+  // Initialize serial
   if (Serial.available() > 0) {
     serialInput = Serial.read();
     // Serial.println(currentState);
@@ -47,6 +48,7 @@ void loop() {
     Serial.println(currentState);
     delay(1000);
 
+    // Change state based on serial input
     if (serialInput == 48) {
       currentState = 0;
     } else if (serialInput == 49) {
@@ -59,15 +61,13 @@ void loop() {
   pixels.show();
   // put your main code here, to run repeatedly:
   if (currentState == EMPTY) {
+    // Solid white
     for (int i = 0; i < NUMPIXELS; i++) {
-
       pixels.setPixelColor(i, pixels.Color(50, 50, 50));
     }
-
     pixels.show();
-
-
   } else if (currentState == CORAL) {
+    // Flashing purple
     if( time % 400 < 200) {
       for (int i = 0; i < NUMPIXELS; i++) {
         pixels.setPixelColor(i, pixels.Color(100, 0, 100));
@@ -79,8 +79,8 @@ void loop() {
       }
       pixels.show();
     }
-
   } else if (currentState == ALGAE) {
+    // Half of pixels filled, oscilating purple and yellow
     if (time % 400 < 200) {
       for (int i = 0; i < NUMPIXELS; i++) {
         if (i % 8 < 4) {
@@ -101,6 +101,9 @@ void loop() {
       pixels.show();
     }
   }
+
+
+  // CODE UNDER THIS IS UNIMPORTANT
   /*if (time > 4000 && time <8000) {
     pixels.clear();
     currentState = (States)EMPTY;
